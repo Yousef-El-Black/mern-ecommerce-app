@@ -11,4 +11,6 @@ export const {
   SALT_ROUNDS,
   PEPPER,
   JWT_SEC,
+  PAYPAL_CLIENT_ID,
+  PAYPAL_SEC,
 } = process.env;
