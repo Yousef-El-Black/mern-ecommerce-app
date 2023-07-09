@@ -1,0 +1,87 @@
+import styles from "./sidebar.module.scss";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
+import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import PollIcon from "@mui/icons-material/Poll";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
+import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
+import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
+
+const Sidebar = () => {
+  return (
+    <div className={styles.sidebar}>
+      <div className={styles.top}>
+        <span className={styles.logo}>elblackadmin</span>
+      </div>
+      <hr />
+      <div className={styles.center}>
+        <ul>
+          <p className={styles.title}>MAIN</p>
+          <li>
+            <DashboardIcon className={styles.icon} />
+            <span>Dashboard</span>
+          </li>
+          <p className={styles.title}>LIST</p>
+          <li>
+            <PersonOutlineOutlinedIcon className={styles.icon} />
+            <span>Users</span>
+          </li>
+          <li>
+            <StorefrontOutlinedIcon className={styles.icon} />
+            <span>Products</span>
+          </li>
+          <li>
+            <CreditCardOutlinedIcon className={styles.icon} />
+            <span>Orders</span>
+          </li>
+          <li>
+            <LocalShippingIcon className={styles.icon} />
+            <span>Delivery</span>
+          </li>
+          <p className={styles.title}>USEFUL LINKS</p>
+          <li>
+            <PollIcon className={styles.icon} />
+            <span>Stats</span>
+          </li>
+          <li>
+            <NotificationsNoneIcon className={styles.icon} />
+            <span>Notifications</span>
+          </li>
+          <p className={styles.title}>SERVICES</p>
+          <li>
+            <SettingsSystemDaydreamOutlinedIcon className={styles.icon} />
+            <span>System Health</span>
+          </li>
+          <li>
+            <PsychologyOutlinedIcon className={styles.icon} />
+            <span>Logs</span>
+          </li>
+          <li>
+            <SettingsApplicationsRoundedIcon className={styles.icon} />
+            <span>Settings</span>
+          </li>
+          <p className={styles.title}>USER</p>
+          <li>
+            <AccountCircleOutlinedIcon className={styles.icon} />
+            <span>Profile</span>
+          </li>
+          <li>
+            <ExitToAppOutlinedIcon className={styles.icon} />
+            <span>Logout</span>
+          </li>
+        </ul>
+      </div>
+      <div className={styles.bottom}>
+        <div className={styles.colorOption}></div>
+        <div className={styles.colorOption}></div>
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;
