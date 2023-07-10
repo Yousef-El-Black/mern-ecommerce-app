@@ -107,7 +107,11 @@ const List = () => {
               <TableCell className={styles.tableCell}>{row.date}</TableCell>
               <TableCell className={styles.tableCell}>{row.amount}</TableCell>
               <TableCell className={styles.tableCell}>{row.method}</TableCell>
-              <TableCell className={styles.tableCell}>{row.status}</TableCell>
+              <TableCell className={styles.tableCell}>
+                <span className={`${styles.status} ${styles[row.status]}`}>
+                  {row.status}
+                </span>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
