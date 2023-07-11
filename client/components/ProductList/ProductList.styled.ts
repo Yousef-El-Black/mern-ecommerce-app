@@ -5,6 +5,7 @@ export const Container = styled.div``;
 
 export const Title = styled.h1`
   margin: 20px;
+  text-transform: capitalize;
 `;
 
 export const FilterContainer = styled.div`

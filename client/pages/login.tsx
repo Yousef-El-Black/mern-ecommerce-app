@@ -1,7 +1,17 @@
 import Login from "@/components/Login/Login";
-import React from "react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const login = () => {
+  const router = useRouter();
+  const user = true;
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, []);
+
   return <Login />;
 };
 

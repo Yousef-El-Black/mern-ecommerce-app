@@ -18,6 +18,7 @@ module.exports = {
       "www.vintageindustries.nl",
       "as2.ftcdn.net",
       "palmnoosa.com.au",
+      "www.pexel.com",
     ],
   },
 };

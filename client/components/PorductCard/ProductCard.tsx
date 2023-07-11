@@ -3,15 +3,9 @@ import { Container, Circle, Info, Icon } from "./ProductCard.styled";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Link from "next/link";
 
-const ProductCard = ({
-  item,
-}: {
-  item: {
-    id: number;
-    img: string;
-  };
-}) => {
+const ProductCard = ({ item }: { item: any }) => {
   return (
     <Container>
       <Circle />
@@ -27,7 +21,9 @@ const ProductCard = ({
           <ShoppingCartOutlinedIcon />
         </Icon>
         <Icon>
-          <SearchIcon />
+          <Link href={`/product/${item._id}`}>
+            <SearchIcon />
+          </Link>
         </Icon>
         <Icon>
           <FavoriteBorderIcon />
