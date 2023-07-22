@@ -4,7 +4,7 @@ import { productInputs } from "@/formsrc";
 const New = () => {
   return (
     <div>
-      <NewPage inputs={productInputs} title={"Add New Product"} />
+      <NewPage type={"Product"} />
     </div>
   );
 };

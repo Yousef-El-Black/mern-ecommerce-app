@@ -1,18 +1,19 @@
-import Login from "@/components/Login/Login";
+import LoginPage from "@/components/Login/Login";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-const login = () => {
-  const router = useRouter();
-  const user = true;
+const Login = () => {
+  // const router = useRouter();
 
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, []);
+  // const user = false;
 
-  return <Login />;
+  // useEffect(() => {
+  //   if (user) {
+  //     router.push("/");
+  //   }
+  // }, []);
+
+  return <LoginPage />;
 };
 
-export default login;
+export default Login;

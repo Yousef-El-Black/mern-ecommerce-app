@@ -24,6 +24,12 @@ export const register = async (
       username: req.body.username,
       email: req.body.email,
       password: passwordHash,
+      name: req.body.name,
+      phone: req.body.phone,
+      address: req.body.address,
+      country: req.body.country,
+      isAdmin: req.body.isAdmin || false,
+      img: req.body.img,
     });
 
     const savedUser: NewUser = await newUser.save();

@@ -5,7 +5,7 @@ import React from "react";
 const New = () => {
   return (
     <div>
-      <NewPage inputs={userInputs} title={"Add New User"} />
+      <NewPage type={"User"} />
     </div>
   );
 };

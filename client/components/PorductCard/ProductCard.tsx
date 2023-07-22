@@ -10,7 +10,7 @@ const ProductCard = ({ item }: { item: any }) => {
     <Container>
       <Circle />
       <Image
-        src={item.img}
+        src={item.img[0]}
         alt=""
         width={1280}
         height={1280}

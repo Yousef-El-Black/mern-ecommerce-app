@@ -3,6 +3,10 @@ const nextConfig = {
   reactStrictMode: true,
 };
 
+const dotenv = require("dotenv");
+
+dotenv.config();
+
 module.exports = {
   ...nextConfig,
   images: {
@@ -19,6 +23,7 @@ module.exports = {
       "as2.ftcdn.net",
       "palmnoosa.com.au",
       "www.pexel.com",
+      "res.cloudinary.com",
     ],
   },
 };

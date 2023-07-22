@@ -1,7 +1,8 @@
+import Product from "@/components/Product/Product";
 import React from "react";
 
 const ProductId = () => {
-  return <div>ProductId</div>;
+  return <Product />;
 };
 
 export default ProductId;

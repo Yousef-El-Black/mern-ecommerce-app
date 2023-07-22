@@ -24,8 +24,49 @@ import {
 } from "./Product.styled";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { publicRequest } from "@/requestMethods";
+import { addProduct } from "@/redux/cartRedux";
+import { useDispatch } from "react-redux";
 
 const Product = () => {
+  const router = useRouter();
+  const id = router.query.id;
+  const [product, setProduct] = useState<any>({});
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+
+  const dispatch = useDispatch();
+
+  const handleQuantity = (type: string) => {
+    if (type === "dec") {
+      if (quantity > 0) {
+        setQuantity(quantity - 1);
+      }
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const handleAddToCart = () => {
+    dispatch(addProduct({ ...product, quantity, color, size }));
+  };
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await publicRequest.get("/products/" + id);
+        console.log(res.data);
+        setProduct(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchProduct();
+  }, [id]);
+
   return (
     <Container>
       <Navbar />
@@ -33,9 +74,8 @@ const Product = () => {
       <Wrapper>
         <ImgContainer>
           <Image
-            src={
-              "https://images.pexels.com/photos/2363825/pexels-photo-2363825.jpeg"
-            }
+            // "https://images.pexels.com/photos/2363825/pexels-photo-2363825.jpeg"
+            src={product.img && (product.img[0] as any)}
             alt=""
             width={1000}
             height={1000}
@@ -44,40 +84,44 @@ const Product = () => {
           />
         </ImgContainer>
         <InfoContainer>
-          <Title>Denim Jumpsuit</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad optio
-            fugiat fuga in. Corporis qui inventore architecto fugiat! Enim, rem
-            assumenda fugiat illum debitis est hic fugit voluptatem. Laboriosam,
-            temporibus.
-          </Desc>
-          <Price>$ 20</Price>
+          <Title>{product.title}</Title>
+          <Desc>{product.desc}</Desc>
+          <Price>$ {product.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="000000" />
-              <FilterColor color="4f5fe3" />
-              <FilterColor color="00ff00" />
+              {product.color &&
+                product.color.length > 0 &&
+                product.color.map((color: string, index: number) => {
+                  return (
+                    <FilterColor
+                      color={color}
+                      key={index}
+                      onClick={() => setColor(color)}
+                    />
+                  );
+                })}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSizeSelect>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
-                <FilterSizeOption>2XL</FilterSizeOption>
+              <FilterSizeSelect onChange={(e: any) => setSize(e.target.value)}>
+                {product.size &&
+                  product.size.length > 0 &&
+                  product.size.map((size: string, index: number) => {
+                    return (
+                      <FilterSizeOption key={index}>{size}</FilterSizeOption>
+                    );
+                  })}
               </FilterSizeSelect>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <RemoveIcon />
-              <Amount>1</Amount>
-              <AddIcon />
+              <RemoveIcon onClick={() => handleQuantity("dec")} />
+              <Amount>{quantity}</Amount>
+              <AddIcon onClick={() => handleQuantity("inc")} />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick={handleAddToCart}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>
@@ -88,3 +132,14 @@ const Product = () => {
 };
 
 export default Product;
+
+// export async function getStaticPaths() {
+//   const res = await fetch("http://localhost:8080/api/products");
+//   const products = await res.json();
+
+//   const paths = products.map((product: any) => ({
+//     params: { id: product.id },
+//   }));
+
+//   return { paths, fallback: false };
+// }

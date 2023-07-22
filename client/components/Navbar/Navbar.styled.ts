@@ -57,9 +57,60 @@ export const Right = styled.div`
   ${mobile({ flex: "2", justifyContent: "center" })}
 `;
 
+export const UserIconContainer = styled.div`
+  position: relative;
+`;
+
+export const SayingHi = styled.span`
+  margin-left: 10px;
+`;
+
+export const UserMenu = styled.div`
+  background-color: white;
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  transform: translate(-50%);
+  left: 50%;
+  top: calc(100% + 20px);
+  border-radius: 10px;
+  z-index: 4;
+  box-shadow: 0px 0px 20px 0px black;
+  transition: 0.3s;
+  padding: 10px;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: start;
+  font-size: 14px;
+
+  div {
+    border-bottom: 10px solid white;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid transparent;
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    top: -15%;
+    left: 50%;
+    transform: translate(-50%);
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+`;
+
 export const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
+  color: black;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;

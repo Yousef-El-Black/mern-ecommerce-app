@@ -1,0 +1,60 @@
+.successMessage {
+  position: fixed;
+  top: 25px;
+  right: -100%;
+  width: 230px;
+  min-height: 90px;
+  border-radius: 10px;
+  padding: 25px 10px;
+  box-sizing: border-box;
+  background-color: rgb(6, 207, 6);
+  color: white;
+  overflow: hidden;
+  transition: 0.5s;
+  animation: showFromRight 6s ease 1s;
+
+  .icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  .bottomLine {
+    background-color: aqua;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 8px;
+    border-radius: 0 10px 10px 0px;
+    animation: TimelineInc 5s linear 1.6s;
+  }
+}
+
+@keyframes showFromRight {
+  0% {
+    right: -100%;
+  }
+  10% {
+    right: 25px;
+  }
+  90% {
+    right: 25px;
+  }
+  100% {
+    right: -100%;
+  }
+}
+
+@keyframes TimelineInc {
+  0% {
+    width: 0%;
+  }
+  90% {
+    width: 100%;
+  }
+  100% {
+    width: 100%;
+  }
+}

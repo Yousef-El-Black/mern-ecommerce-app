@@ -11,9 +11,15 @@ import {
   getMonthlyIncome,
   getOrderById,
   updateOrder,
+  getUserOrders,
+  getProductStats,
 } from "../../controllers/order.controller";
 
 const orderRoutes: IRouter = Router();
+
+orderRoutes.route("/userstats/:id").get(verifyAdmin, getUserOrders);
+
+orderRoutes.route("/productstats/:id").get(verifyAdmin, getProductStats);
 
 orderRoutes.route("/income").get(verifyAdmin, getMonthlyIncome);
 

@@ -3,6 +3,7 @@ import { PORT } from "./config";
 import { connectDB } from "./utils/connectDB";
 import router from "./api";
 import cors from "cors";
+import { handleUpload, upload } from "./server";
 
 // Define The Main Router
 const app: Application = express();
@@ -21,6 +22,21 @@ app.use(cors());
 
 // API Route
 app.use("/api", router);
+
+// Cloudinary Route
+app.post("/api/upload", upload.single("img"), async (req: any, res) => {
+  try {
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+    const cldRes = await handleUpload(dataURI);
+    res.json(cldRes);
+  } catch (error) {
+    console.log(error);
+    res.send({
+      message: error,
+    });
+  }
+});
 
 // Listening to Server at PORT
 app.listen(port, () => {

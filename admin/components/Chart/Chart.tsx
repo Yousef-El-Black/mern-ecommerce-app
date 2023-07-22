@@ -27,16 +27,24 @@ const data = [
     Total: 1600,
   },
   {
-    name: "January",
+    name: "May",
     Total: 900,
   },
   {
-    name: "January",
+    name: "June",
     Total: 1700,
   },
 ];
 
-const Chart = ({ aspect, title }: { aspect: number; title: string }) => {
+const Chart = ({
+  aspect,
+  title,
+  stats,
+}: {
+  aspect: number;
+  title: string;
+  stats?: any;
+}) => {
   return (
     <div className={styles.chart}>
       <div className={styles.title}>{title}</div>
@@ -44,7 +52,7 @@ const Chart = ({ aspect, title }: { aspect: number; title: string }) => {
         <AreaChart
           width={730}
           height={250}
-          data={data}
+          data={stats}
           margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
         >
           <defs>
@@ -53,13 +61,13 @@ const Chart = ({ aspect, title }: { aspect: number; title: string }) => {
               <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="name" stroke="gray" />
+          <XAxis dataKey="_id" stroke="gray" />
           {/* <YAxis /> */}
           <CartesianGrid strokeDasharray="3 3" className={styles.chartGrid} />
           <Tooltip />
           <Area
             type="monotone"
-            dataKey="Total"
+            dataKey="totalAmount"
             stroke="#8884d8"
             fillOpacity={1}
             fill="url(#Total)"

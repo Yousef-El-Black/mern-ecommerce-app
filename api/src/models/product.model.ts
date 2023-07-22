@@ -4,14 +4,14 @@ const ProductSchema = new Schema(
   {
     title: { type: String, required: true, unique: true },
     desc: { type: String, required: true },
-    img: { type: String, required: true },
+    img: { type: [String] },
     categories: { type: Array },
     size: { type: Array },
     color: { type: Array },
     price: { type: Number, required: true },
-    inStock: { type: Boolean, default: true },
+    stock: { type: Number, default: 1 },
   },
   { timestamps: true }
 );
 
-export default model("Product", ProductSchema);
+export default model("Products", ProductSchema);

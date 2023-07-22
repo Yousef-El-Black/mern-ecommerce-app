@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { model } from "mongoose";
 
 const OrderSchema = new mongoose.Schema(
   {
@@ -21,4 +21,4 @@ const OrderSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Order", OrderSchema);
+export default model("Orders", OrderSchema);
