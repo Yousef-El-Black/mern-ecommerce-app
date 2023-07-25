@@ -4,6 +4,7 @@ import ProductCard from "../PorductCard/ProductCard";
 import { useEffect, useState } from "react";
 import getProducts from "@/hooks/getProducts";
 import axios from "axios";
+import { publicRequest } from "@/requestMethods";
 export default function Products({
   cat,
   filters,
@@ -19,10 +20,8 @@ export default function Products({
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(
-          cat
-            ? `http://localhost:8080/api/products/?category=${cat}`
-            : "http://localhost:8080/api/products/"
+        const response = await publicRequest.get(
+          cat ? `products/?category=${cat}` : "products/"
         );
         setProducts(response.data);
         // setFilteredProducts(response.data);

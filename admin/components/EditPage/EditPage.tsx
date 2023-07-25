@@ -1,5 +1,3 @@
-import Sidebar from "../Sidebar/Sidebar";
-import Navbar from "../Navbar/Navbar";
 import styles from "./editpage.module.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -8,6 +6,7 @@ import { useState, useEffect } from "react";
 import { publicRequest, userRequest } from "@/requestMethods";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import Layout from "../Layout/Layout";
 
 const EditPage = ({ type }: { type: string }) => {
   const [username, setUsername] = useState("");
@@ -168,236 +167,232 @@ const EditPage = ({ type }: { type: string }) => {
   }, [productImg]);
 
   return (
-    <div className={styles.editPage}>
-      <Sidebar />
-      <div className={styles.editPageContainer}>
-        <Navbar />
-        <div className={styles.top}>
-          <h1>
-            Edit{" "}
-            {type === "users"
-              ? "User"
-              : type === "products"
-              ? "Product"
-              : type === "orders" && "Order"}
-          </h1>
-        </div>
-        <div className={styles.bottom}>
-          <div className={styles.left}>
-            {type === "users" ? (
-              <Image
-                src={
-                  img
-                    ? URL.createObjectURL(img)
-                    : imgUrl
-                    ? imgUrl
-                    : "https://png.pngtree.com/png-clipart/20190925/original/pngtree-no-image-vector-illustration-isolated-png-image_4979075.jpg"
-                }
-                alt=""
-                width={250}
-                height={250}
-              />
-            ) : (
-              Array.isArray(productImgs) &&
-              productImgs.map((img: any, index: number) => {
-                return (
+    <Layout>
+      <div className={styles.top}>
+        <h1>
+          Edit{" "}
+          {type === "users"
+            ? "User"
+            : type === "products"
+            ? "Product"
+            : type === "orders" && "Order"}
+        </h1>
+      </div>
+      <div className={styles.bottom}>
+        <div className={styles.left}>
+          {type === "users" ? (
+            <Image
+              src={
+                img
+                  ? URL.createObjectURL(img)
+                  : imgUrl
+                  ? imgUrl
+                  : "https://png.pngtree.com/png-clipart/20190925/original/pngtree-no-image-vector-illustration-isolated-png-image_4979075.jpg"
+              }
+              alt=""
+              width={250}
+              height={250}
+            />
+          ) : (
+            Array.isArray(productImgs) &&
+            productImgs.map((img: any, index: number) => {
+              return (
+                <div
+                  key={index}
+                  style={{
+                    position: "relative",
+                    overflow: "hidden",
+                    borderRadius: "50%",
+                    width: "100px",
+                    height: "100px",
+                    marginBottom: "5px",
+                  }}
+                >
+                  <Image src={img} alt="" width={250} height={250} />
                   <div
-                    key={index}
-                    style={{
-                      position: "relative",
-                      overflow: "hidden",
-                      borderRadius: "50%",
-                      width: "100px",
-                      height: "100px",
-                      marginBottom: "5px",
-                    }}
+                    className={styles.removeContainer}
+                    onClick={() => removeProductImg(img)}
                   >
-                    <Image src={img} alt="" width={250} height={250} />
-                    <div
-                      className={styles.removeContainer}
-                      onClick={() => removeProductImg(img)}
-                    >
-                      <RemoveCircleIcon />
-                    </div>
+                    <RemoveCircleIcon />
                   </div>
-                );
-              })
-            )}
-            <div
-              className={styles.acceptBtn}
-              style={{ display: `${isImageAccepted ? "none" : "flex"}` }}
+                </div>
+              );
+            })
+          )}
+          <div
+            className={styles.acceptBtn}
+            style={{ display: `${isImageAccepted ? "none" : "flex"}` }}
+          >
+            <button
+              onClick={() => {
+                handleAcceptImage(false);
+              }}
             >
-              <button
-                onClick={() => {
-                  handleAcceptImage(false);
-                }}
-              >
-                No
-              </button>
-              <button
-                onClick={() => {
-                  handleAcceptImage(true);
-                }}
-              >
-                Yes
-              </button>
-            </div>
+              No
+            </button>
+            <button
+              onClick={() => {
+                handleAcceptImage(true);
+              }}
+            >
+              Yes
+            </button>
           </div>
-          <div className={styles.right}>
-            <form>
-              {type === "users" ? (
-                <>
-                  <div className={styles.formInput}>
-                    <label htmlFor="img">
-                      Image:{" "}
-                      <DriveFolderUploadOutlinedIcon className={styles.icon} />
-                    </label>
-                    <input
-                      type="file"
-                      id="img"
-                      onChange={(e: any) => setImg(e.target.files[0])}
-                      style={{ display: "none" }}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Username</label>
-                    <input
-                      type="text"
-                      value={username}
-                      onChange={(e: any) => setUsername(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Name and surname</label>
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e: any) => setName(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Email</label>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e: any) => setEmail(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Phone</label>
-                    <input
-                      type="text"
-                      value={phone}
-                      onChange={(e: any) => setPhone(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Password</label>
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e: any) => setPassword(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Address</label>
-                    <input
-                      type="text"
-                      value={address}
-                      onChange={(e: any) => setAddress(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Country</label>
-                    <input
-                      type="text"
-                      value={country}
-                      onChange={(e: any) => setCountry(e.target.value)}
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className={styles.formInput}>
-                    <label htmlFor="productImgs">
-                      Image:{" "}
-                      <DriveFolderUploadOutlinedIcon className={styles.icon} />
-                    </label>
-                    <input
-                      type="file"
-                      id="productImgs"
-                      onChange={(e: any) => {
-                        setProductImg(e.target.files[0]);
-                      }}
-                      style={{ display: "none" }}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Title</label>
-                    <input
-                      type="text"
-                      value={title}
-                      onChange={(e: any) => setTitle(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Description</label>
-                    <input
-                      type="text"
-                      value={desc}
-                      onChange={(e: any) => setDesc(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Categories</label>
-                    <input
-                      type="text"
-                      value={categories}
-                      onChange={(e: any) => setCategories(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Price</label>
-                    <input
-                      type="number"
-                      value={price}
-                      onChange={(e: any) => setPrice(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Stock</label>
-                    <input
-                      type="number"
-                      value={stock}
-                      onChange={(e: any) => setStock(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Colors</label>
-                    <input
-                      type="text"
-                      value={colors}
-                      onChange={(e: any) => setColors(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Sizes</label>
-                    <input
-                      type="text"
-                      value={sizes}
-                      onChange={(e: any) => setSizes(e.target.value)}
-                    />
-                  </div>
-                </>
-              )}
-              <button onClick={type === "users" ? updateUser : updateProduct}>
-                Send
-              </button>
-            </form>
-          </div>
+        </div>
+        <div className={styles.right}>
+          <form>
+            {type === "users" ? (
+              <>
+                <div className={styles.formInput}>
+                  <label htmlFor="img">
+                    Image:{" "}
+                    <DriveFolderUploadOutlinedIcon className={styles.icon} />
+                  </label>
+                  <input
+                    type="file"
+                    id="img"
+                    onChange={(e: any) => setImg(e.target.files[0])}
+                    style={{ display: "none" }}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Username</label>
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e: any) => setUsername(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Name and surname</label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e: any) => setName(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e: any) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Phone</label>
+                  <input
+                    type="text"
+                    value={phone}
+                    onChange={(e: any) => setPhone(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e: any) => setPassword(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Address</label>
+                  <input
+                    type="text"
+                    value={address}
+                    onChange={(e: any) => setAddress(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Country</label>
+                  <input
+                    type="text"
+                    value={country}
+                    onChange={(e: any) => setCountry(e.target.value)}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className={styles.formInput}>
+                  <label htmlFor="productImgs">
+                    Image:{" "}
+                    <DriveFolderUploadOutlinedIcon className={styles.icon} />
+                  </label>
+                  <input
+                    type="file"
+                    id="productImgs"
+                    onChange={(e: any) => {
+                      setProductImg(e.target.files[0]);
+                    }}
+                    style={{ display: "none" }}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Title</label>
+                  <input
+                    type="text"
+                    value={title}
+                    onChange={(e: any) => setTitle(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Description</label>
+                  <input
+                    type="text"
+                    value={desc}
+                    onChange={(e: any) => setDesc(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Categories</label>
+                  <input
+                    type="text"
+                    value={categories}
+                    onChange={(e: any) => setCategories(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Price</label>
+                  <input
+                    type="number"
+                    value={price}
+                    onChange={(e: any) => setPrice(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Stock</label>
+                  <input
+                    type="number"
+                    value={stock}
+                    onChange={(e: any) => setStock(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Colors</label>
+                  <input
+                    type="text"
+                    value={colors}
+                    onChange={(e: any) => setColors(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Sizes</label>
+                  <input
+                    type="text"
+                    value={sizes}
+                    onChange={(e: any) => setSizes(e.target.value)}
+                  />
+                </div>
+              </>
+            )}
+            <button onClick={type === "users" ? updateUser : updateProduct}>
+              Send
+            </button>
+          </form>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

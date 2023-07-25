@@ -42,10 +42,12 @@ const LoginPage = () => {
         <Title>SIGN IN</Title>
         <Form>
           <Input
+            type="text"
             placeholder="username"
             onChange={(e: any) => setUsername(e.target.value)}
           />
           <Input
+            type="password"
             placeholder="password"
             onChange={(e: any) => setPassword(e.target.value)}
           />
@@ -65,7 +67,7 @@ const LoginPage = () => {
             DO NOT YOU REMEMBER THE PASSWORD?
           </Link>
           <Link
-            href={"/"}
+            href={"/register"}
             style={{
               margin: "10px 0px",
               fontSize: "12px",

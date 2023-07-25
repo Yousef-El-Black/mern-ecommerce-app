@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
+const dotenv = require("dotenv");
+
+dotenv.config();
+
 const nextConfig = {
   reactStrictMode: true,
 };
@@ -13,5 +17,10 @@ module.exports = {
       "img.freepik.com",
       "res.cloudinary.com",
     ],
+  },
+  env: {
+    API_URL: "",
+    ENV: "dev",
+    LOCAL_API_URL: "http://localhost:8080/",
   },
 };

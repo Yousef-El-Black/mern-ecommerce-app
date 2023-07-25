@@ -1,7 +1,7 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { apiUrl } from "./environment/environment";
 
-const BASE_URL = "http://localhost:8080/api/";
+const BASE_URL = `${apiUrl}api/`;
 
 export const publicRequest = axios.create({
   baseURL: BASE_URL,

@@ -1,6 +1,5 @@
 import Image from "next/image";
-import Navbar from "../Navbar/Navbar";
-import Sidebar from "../Sidebar/Sidebar";
+import Layout from "../Layout/Layout";
 import styles from "./newpage.module.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState, useEffect } from "react";
@@ -133,16 +132,40 @@ const NewPage = ({ type }: { type: string }) => {
   }, [productImgs]);
 
   return (
-    <div className={styles.new}>
-      <Sidebar />
-      <div className={styles.newContainer}>
-        <Navbar />
-        <div className={styles.top}>
-          <h1>Add New {type}</h1>
-        </div>
-        <div className={styles.bottom}>
-          <div className={styles.left}>
-            {type === "User" ? (
+    <Layout>
+      <div className={styles.top}>
+        <h1>Add New {type}</h1>
+      </div>
+      <div className={styles.bottom}>
+        <div className={styles.left}>
+          {type === "User" ? (
+            <Image
+              src={
+                img
+                  ? URL.createObjectURL(img)
+                  : "https://png.pngtree.com/png-clipart/20190925/original/pngtree-no-image-vector-illustration-isolated-png-image_4979075.jpg"
+              }
+              alt=""
+              width={250}
+              height={250}
+            />
+          ) : (
+            <div>
+              {productImgs.map((img: any, index: number) => {
+                return (
+                  <Image
+                    key={index}
+                    src={
+                      img
+                        ? URL.createObjectURL(img)
+                        : "https://png.pngtree.com/png-clipart/20190925/original/pngtree-no-image-vector-illustration-isolated-png-image_4979075.jpg"
+                    }
+                    alt=""
+                    width={250}
+                    height={250}
+                  />
+                );
+              })}
               <Image
                 src={
                   img
@@ -153,240 +176,198 @@ const NewPage = ({ type }: { type: string }) => {
                 width={250}
                 height={250}
               />
-            ) : (
-              <div>
-                {productImgs.map((img: any, index: number) => {
-                  return (
-                    <Image
-                      key={index}
-                      src={
-                        img
-                          ? URL.createObjectURL(img)
-                          : "https://png.pngtree.com/png-clipart/20190925/original/pngtree-no-image-vector-illustration-isolated-png-image_4979075.jpg"
-                      }
-                      alt=""
-                      width={250}
-                      height={250}
-                    />
-                  );
-                })}
-                <Image
-                  src={
-                    img
-                      ? URL.createObjectURL(img)
-                      : "https://png.pngtree.com/png-clipart/20190925/original/pngtree-no-image-vector-illustration-isolated-png-image_4979075.jpg"
-                  }
-                  alt=""
-                  width={250}
-                  height={250}
-                />
-              </div>
-            )}
-            <div
-              className={styles.acceptBtn}
-              style={{ display: `${isImageAccepted ? "none" : "flex"}` }}
-            >
-              <button
-                onClick={() => {
-                  handleAcceptImage(false);
-                }}
-              >
-                No
-              </button>
-              <button
-                onClick={() => {
-                  handleAcceptImage(true);
-                }}
-              >
-                Yes
-              </button>
             </div>
-          </div>
-          <div className={styles.right}>
-            <form>
-              {/* <div className={styles.formInput}>
-                <label htmlFor="file">
-                  Image:{" "}
-                  <DriveFolderUploadOutlinedIcon className={styles.icon} />
-                </label>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={(e) => setFile(e.target.files && e.target.files[0])}
-                  style={{ display: "none" }}
-                />
-              </div> */}
-              {type === "User" ? (
-                <>
-                  <div className={styles.formInput}>
-                    <label htmlFor="userImg">
-                      Image:{" "}
-                      <DriveFolderUploadOutlinedIcon className={styles.icon} />
-                    </label>
-                    <input
-                      type="file"
-                      id="userImg"
-                      onChange={(e: any) => setImg(e.target.files[0])}
-                      style={{ display: "none" }}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Username</label>
-                    <input
-                      type="text"
-                      placeholder="john_doe"
-                      value={username}
-                      onChange={(e: any) => setUsername(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Name and surname</label>
-                    <input
-                      type="text"
-                      placeholder="John Doe"
-                      value={name}
-                      onChange={(e: any) => setName(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Email</label>
-                    <input
-                      type="email"
-                      placeholder="john_doe@gmail.com"
-                      value={email}
-                      onChange={(e: any) => setEmail(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Phone</label>
-                    <input
-                      type="text"
-                      placeholder="+1 234 567 89"
-                      value={phone}
-                      onChange={(e: any) => setPhone(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Password</label>
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e: any) => setPassword(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Address</label>
-                    <input
-                      type="text"
-                      placeholder="Elton St. 216 NewYork"
-                      value={address}
-                      onChange={(e: any) => setAddress(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Country</label>
-                    <input
-                      type="text"
-                      placeholder="USA"
-                      value={country}
-                      onChange={(e: any) => setCountry(e.target.value)}
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className={styles.formInput}>
-                    <label htmlFor="productImgs">
-                      Image:{" "}
-                      <DriveFolderUploadOutlinedIcon className={styles.icon} />
-                    </label>
-                    <input
-                      type="file"
-                      id="productImgs"
-                      multiple={true}
-                      onChange={(e: any) => {
-                        setProductImgs(Array.from(e.target.files));
-                      }}
-                      style={{ display: "none" }}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Title</label>
-                    <input
-                      type="text"
-                      placeholder="Apple Macbook Pro"
-                      value={title}
-                      onChange={(e: any) => setTitle(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Description</label>
-                    <input
-                      type="text"
-                      placeholder="Description"
-                      value={desc}
-                      onChange={(e: any) => setDesc(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Categories</label>
-                    <input
-                      type="text"
-                      placeholder="Computers, Men, Apple"
-                      value={categories}
-                      onChange={(e: any) => setCategories(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Price</label>
-                    <input
-                      type="number"
-                      placeholder="Apple Macbook Pro"
-                      value={price}
-                      onChange={(e: any) => setPrice(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Stock</label>
-                    <input
-                      type="text"
-                      placeholder="1"
-                      value={stock}
-                      onChange={(e: any) => setStock(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Colors</label>
-                    <input
-                      type="text"
-                      placeholder="gray, blue, yellow"
-                      value={color}
-                      onChange={(e: any) => setColor(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.formInput}>
-                    <label>Size</label>
-                    <input
-                      type="text"
-                      placeholder="M, XL, L, 2XL"
-                      value={size}
-                      onChange={(e: any) => setSize(e.target.value)}
-                    />
-                  </div>
-                </>
-              )}
-              <button
-                onClick={
-                  type === "User" ? handleCreateUser : handleCreateProduct
-                }
-              >
-                Send
-              </button>
-            </form>
+          )}
+          <div
+            className={styles.acceptBtn}
+            style={{ display: `${isImageAccepted ? "none" : "flex"}` }}
+          >
+            <button
+              onClick={() => {
+                handleAcceptImage(false);
+              }}
+            >
+              No
+            </button>
+            <button
+              onClick={() => {
+                handleAcceptImage(true);
+              }}
+            >
+              Yes
+            </button>
           </div>
         </div>
+        <div className={styles.right}>
+          <form>
+            {type === "User" ? (
+              <>
+                <div className={styles.formInput}>
+                  <label htmlFor="userImg">
+                    Image:{" "}
+                    <DriveFolderUploadOutlinedIcon className={styles.icon} />
+                  </label>
+                  <input
+                    type="file"
+                    id="userImg"
+                    onChange={(e: any) => setImg(e.target.files[0])}
+                    style={{ display: "none" }}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Username</label>
+                  <input
+                    type="text"
+                    placeholder="john_doe"
+                    value={username}
+                    onChange={(e: any) => setUsername(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Name and surname</label>
+                  <input
+                    type="text"
+                    placeholder="John Doe"
+                    value={name}
+                    onChange={(e: any) => setName(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    placeholder="john_doe@gmail.com"
+                    value={email}
+                    onChange={(e: any) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Phone</label>
+                  <input
+                    type="text"
+                    placeholder="+1 234 567 89"
+                    value={phone}
+                    onChange={(e: any) => setPhone(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e: any) => setPassword(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Address</label>
+                  <input
+                    type="text"
+                    placeholder="Elton St. 216 NewYork"
+                    value={address}
+                    onChange={(e: any) => setAddress(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Country</label>
+                  <input
+                    type="text"
+                    placeholder="USA"
+                    value={country}
+                    onChange={(e: any) => setCountry(e.target.value)}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className={styles.formInput}>
+                  <label htmlFor="productImgs">
+                    Image:{" "}
+                    <DriveFolderUploadOutlinedIcon className={styles.icon} />
+                  </label>
+                  <input
+                    type="file"
+                    id="productImgs"
+                    multiple={true}
+                    onChange={(e: any) => {
+                      setProductImgs(Array.from(e.target.files));
+                    }}
+                    style={{ display: "none" }}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Title</label>
+                  <input
+                    type="text"
+                    placeholder="Apple Macbook Pro"
+                    value={title}
+                    onChange={(e: any) => setTitle(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Description</label>
+                  <input
+                    type="text"
+                    placeholder="Description"
+                    value={desc}
+                    onChange={(e: any) => setDesc(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Categories</label>
+                  <input
+                    type="text"
+                    placeholder="Computers, Men, Apple"
+                    value={categories}
+                    onChange={(e: any) => setCategories(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Price</label>
+                  <input
+                    type="number"
+                    placeholder="Apple Macbook Pro"
+                    value={price}
+                    onChange={(e: any) => setPrice(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Stock</label>
+                  <input
+                    type="text"
+                    placeholder="1"
+                    value={stock}
+                    onChange={(e: any) => setStock(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Colors</label>
+                  <input
+                    type="text"
+                    placeholder="gray, blue, yellow"
+                    value={color}
+                    onChange={(e: any) => setColor(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formInput}>
+                  <label>Size</label>
+                  <input
+                    type="text"
+                    placeholder="M, XL, L, 2XL"
+                    value={size}
+                    onChange={(e: any) => setSize(e.target.value)}
+                  />
+                </div>
+              </>
+            )}
+            <button
+              onClick={type === "User" ? handleCreateUser : handleCreateProduct}
+            >
+              Send
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

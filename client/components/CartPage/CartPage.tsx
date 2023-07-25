@@ -55,7 +55,13 @@ const CartPage = () => {
 
   const dispatch = useDispatch();
 
-  const token = useSelector((state: any) => state.user.currentUser.accessToken);
+  const { currentUser } = useSelector((state: any) => state.user);
+
+  let token: string;
+
+  if (currentUser) {
+    token = currentUser.accessToken;
+  }
 
   const onToken = (token: any) => {
     setStripeToken(token);
@@ -67,6 +73,15 @@ const CartPage = () => {
 
   const handleQuantityMinus = (id: any) => {
     dispatch(quantityMinus({ id } as any) as any);
+  };
+
+  const handleCheckoutNow = (e: any) => {
+    e.preventDefault();
+    if (token) {
+      // Normal Check out
+    } else {
+      router.push("/login");
+    }
   };
 
   useEffect(() => {
@@ -174,19 +189,21 @@ const CartPage = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <StripeCheckout
-              name="el-black Shop"
-              image="https://lh3.googleusercontent.com/a/AAcHTtdvqW9mQe11sOJrS9SoLDDZMAuT-6aORwo9Esgk5UKAIg=s360-c-no"
-              billingAddress
-              shippingAddress
-              description={`Your total is $${cart.total}`}
-              amount={cart.total * 100}
-              token={onToken}
-              stripeKey={
-                "pk_test_51NRBkADBVetQQ3NDGFBf0f3DalnYvhSpMPFrfVxXBIvUIzNkSJby4q6FeFquVrTXLjHx68O322uXbbmKKNUCrAq4001Q0BmkCN"
-              }
-            ></StripeCheckout>
-            <Button>CHECKOUT NOW</Button>
+            <Button onClick={handleCheckoutNow}>
+              <StripeCheckout
+                name="el-black Shop"
+                image="https://lh3.googleusercontent.com/a/AAcHTtdvqW9mQe11sOJrS9SoLDDZMAuT-6aORwo9Esgk5UKAIg=s360-c-no"
+                billingAddress
+                shippingAddress
+                description={`Your total is $${cart.total}`}
+                amount={cart.total * 100}
+                token={onToken}
+                stripeKey={
+                  "pk_test_51NRBkADBVetQQ3NDGFBf0f3DalnYvhSpMPFrfVxXBIvUIzNkSJby4q6FeFquVrTXLjHx68O322uXbbmKKNUCrAq4001Q0BmkCN"
+                }
+              ></StripeCheckout>
+              CHECKOUT NOW
+            </Button>
           </Summary>
         </Bottom>
       </Wrapper>

@@ -15,16 +15,24 @@ const LoginPage = () => {
     (state: any) => state.user
   );
 
+  if (currentUser) {
+    router.push("/");
+  }
+
   const handleLogin = (e: any) => {
     e.preventDefault();
-    login(dispatch, { username, password });
-    if (!error && currentUser) {
-      router.push("/");
+    if (username.trim() !== "" && password.trim() !== "") {
+      login(dispatch, { username, password });
+      if (!error && currentUser) {
+        router.push("/");
+      }
+    } else {
+      alert("Username or Password is Empty!");
     }
   };
 
   return (
-    <div className={styles.loginPage}>
+    <form className={styles.loginPage}>
       <input
         type="text"
         placeholder="username"
@@ -39,7 +47,7 @@ const LoginPage = () => {
         Login
       </button>
       {error && <span style={{ color: "red" }}>Something went Wrong!</span>}
-    </div>
+    </form>
   );
 };
 

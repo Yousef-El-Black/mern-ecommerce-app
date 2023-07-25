@@ -1,6 +1,8 @@
 import { Router, IRouter } from "express";
 import { verifyAdmin, verifyUser } from "../../middlewares/verifyToken";
 import {
+  countUsersThisMonth,
+  countUsersLastMonth,
   deleteUser,
   getUser,
   getUserStats,
@@ -9,6 +11,10 @@ import {
 } from "../../controllers/user.controller";
 
 const userRoutes: IRouter = Router();
+
+userRoutes.route("/countthismonth").get(verifyAdmin, countUsersThisMonth);
+
+userRoutes.route("/countlastmonth").get(verifyAdmin, countUsersLastMonth);
 
 userRoutes.route("/stats").get(verifyAdmin, getUserStats);
 

@@ -1,7 +1,6 @@
 import styles from "./datatable.module.scss";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import Image from "next/image";
-import { productRows, userRows } from "@/datatablesrc";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";

@@ -15,10 +15,7 @@ import SuccessMessage from "../SuccessMessage/SuccessMessage";
 const Navbar = () => {
   const { dispatch }: any = useContext(DarkModeContext);
 
-  // let img = ''
-
   const { currentUser } = useSelector((state: any) => state.user);
-  // console.log(state);
 
   return (
     <>

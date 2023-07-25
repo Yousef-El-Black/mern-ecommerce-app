@@ -3,6 +3,7 @@ import UserModel from "../models/user.model";
 import bcrypt from "bcrypt";
 import { PEPPER, SALT_ROUNDS } from "../config";
 import { User } from "../types/user.type";
+import userModel from "../models/user.model";
 
 // Get All Users
 export const indexUsers = async (
@@ -106,6 +107,48 @@ export const getUserStats = async (
         },
       },
     ]);
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+// Count Users of This month
+export const countUsersThisMonth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const date = new Date();
+  const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
+  try {
+    const data = await UserModel.find({
+      createdAt: { $gte: lastMonth },
+    }).countDocuments();
+
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+// Count Users of  last Month
+export const countUsersLastMonth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const date = new Date();
+  const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
+  const prevMonth = new Date(date.setMonth(lastMonth.getMonth() - 1));
+  try {
+    const data = await UserModel.find({
+      $and: [
+        { createdAt: { $gte: prevMonth } },
+        { createdAt: { $lte: lastMonth } },
+      ],
+    }).countDocuments();
+
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json(err);

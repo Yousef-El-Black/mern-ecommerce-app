@@ -1,21 +1,91 @@
 import styles from "./widget.module.scss";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
+import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+import { useEffect, useState } from "react";
+import { userRequest } from "@/requestMethods";
+import { useSelector } from "react-redux";
 
 const Widget = ({ type }: { type: string }) => {
   let data;
 
+  const [usersCount, setUsersCount] = useState<any>(null);
+  const [ordersCount, setOrdersCount] = useState<any>(null);
+  const [earningsCount, setEarningsCount] = useState<any>(null);
+  const [balance, setBalance] = useState(0);
+
+  const { currentUser } = useSelector((state: any) => state.user);
+
+  let token: string;
+
+  if (currentUser) {
+    token = currentUser.accessToken;
+  }
+
+  useEffect(() => {
+    const fetchUserCountData = async () => {
+      try {
+        const thisMonth = await userRequest(token).get("/users/countthismonth");
+        const lastMonth = await userRequest(token).get("/users/countlastmonth");
+        setUsersCount({ thisMonth: thisMonth.data, lastMonth: lastMonth.data });
+      } catch (err) {}
+    };
+    fetchUserCountData();
+
+    const fetchOrderCountData = async () => {
+      try {
+        const thisMonth = await userRequest(token).get(
+          "/orders/countthismonth"
+        );
+        const lastMonth = await userRequest(token).get(
+          "/orders/countlastmonth"
+        );
+        setOrdersCount({
+          thisMonth: thisMonth.data,
+          lastMonth: lastMonth.data,
+        });
+      } catch (err) {}
+    };
+    fetchOrderCountData();
+
+    const fetchEarningCountData = async () => {
+      try {
+        const thisMonth = await userRequest(token).get(
+          "/orders/countearningthismonth"
+        );
+        const lastMonth = await userRequest(token).get(
+          "/orders/countearninglastmonth"
+        );
+        setEarningsCount({
+          thisMonth: thisMonth.data.totalAmount,
+          lastMonth: lastMonth.data.totalAmount,
+        });
+      } catch (err) {}
+    };
+    fetchEarningCountData();
+
+    const fetchBalance = async () => {
+      try {
+        const res = await userRequest(token).get("/orders/balance");
+        setBalance(res.data.totalAmount);
+      } catch (err) {}
+    };
+    fetchBalance();
+  }, []);
+
   // FIXME:
-  const amount = 100;
   const diff = 20;
 
   switch (type) {
     case "user":
       data = {
         title: "USERS",
+        amount: usersCount && usersCount.thisMonth,
+        lastAmount: usersCount && usersCount.lastMonth,
+        diff: usersCount && (usersCount.thisMonth / usersCount.lastMonth) * 100,
         isMoney: false,
         link: "See all users",
         icon: (
@@ -29,6 +99,10 @@ const Widget = ({ type }: { type: string }) => {
     case "order":
       data = {
         title: "ORDERS",
+        amount: ordersCount && ordersCount.thisMonth,
+        lastAmount: ordersCount && ordersCount.lastMonth,
+        diff:
+          ordersCount && (ordersCount.thisMonth / ordersCount.lastMonth) * 100,
         isMoney: false,
         link: "View all orders",
         icon: (
@@ -45,6 +119,11 @@ const Widget = ({ type }: { type: string }) => {
     case "earning":
       data = {
         title: "EARNINGS",
+        amount: earningsCount && earningsCount.thisMonth,
+        lastAmount: earningsCount && earningsCount.lastMonth,
+        diff:
+          earningsCount &&
+          (earningsCount.thisMonth / earningsCount.lastMonth) * 100,
         isMoney: true,
         link: "View net earnings",
         icon: (
@@ -58,6 +137,13 @@ const Widget = ({ type }: { type: string }) => {
     case "balance":
       data = {
         title: "BALANCE",
+        amount: balance && balance,
+        lastAmount:
+          earningsCount && balance && balance - earningsCount.thisMonth,
+        diff:
+          earningsCount &&
+          balance &&
+          (earningsCount.thisMonth / balance) * 100 + 100,
         isMoney: true,
         link: "See Details",
         icon: (
@@ -87,14 +173,22 @@ const Widget = ({ type }: { type: string }) => {
         <span className={styles.title}>{data.title}</span>
         <span className={styles.counter}>
           {data?.isMoney && "$"}
-          {amount}
+          {data.amount}
         </span>
         <span className={styles.link}>{data.link}</span>
       </div>
       <div className={styles.right}>
-        <div className={`${styles.percentage} ${styles.positive}`}>
-          <KeyboardArrowUpOutlinedIcon />
-          {diff} %
+        <div
+          className={`${styles.percentage} ${
+            data.amount >= data.lastAmount ? styles.positive : styles.negative
+          }`}
+        >
+          {data.amount >= data.lastAmount ? (
+            <KeyboardArrowUpOutlinedIcon />
+          ) : (
+            <KeyboardArrowDownOutlinedIcon />
+          )}
+          {data.diff && data.diff.toFixed() - 100} %
         </div>
         {data.icon}
       </div>
