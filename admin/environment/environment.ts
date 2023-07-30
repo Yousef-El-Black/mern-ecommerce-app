@@ -9,5 +9,6 @@ if (ENV === "dev") {
 } else {
   apiUrl = "http://localhost:8080/";
 }
+apiUrl = "http://localhost:8080/";
 
 export { apiUrl };
