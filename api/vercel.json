@@ -1,5 +1,4 @@
 {
-  "versoin": 2,
   "builds": [
     {
       "src": "./build/index.js"
