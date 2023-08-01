@@ -18,7 +18,7 @@ const config_1 = require("../config");
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default
         // .connect(MONGO_URL_ATLAS as string)
-        .connect(config_1.MONGO_URL_LOCAL)
+        .connect(config_1.MONGO_URL_ATLAS)
         .then(() => console.log("DB Connection Successful!"))
         .catch((err) => console.log(err));
 });

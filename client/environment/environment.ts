@@ -14,6 +14,6 @@ if (ENV === "dev") {
 }
 
 // Remove it after Solve the environment Issue
-apiUrl = "http://localhost:8080/";
+// apiUrl = "http://localhost:8080/";
 
 export { apiUrl };
